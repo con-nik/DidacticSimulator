@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DidacticSimulator.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace DidacticSimulator
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Assembler assembler = new Assembler();
+            assembler.ChangeInMachineCode(@"..\..\Shared\Files\InputFile.txt");
         }
     }
 }

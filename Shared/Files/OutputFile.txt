@@ -1,0 +1,6 @@
+Name: MOV, Opcode: 0000, Class: B1
+Name: ADD, Opcode: 0001, Class: B1
+Name: SUB, Opcode: 0010, Class: B1
+Name: DEC, Opcode: 1000000011, Class: B2
+Name: JMP, Opcode: 1000001011, Class: B2
+Name: ADD, Opcode: 0001, Class: B1

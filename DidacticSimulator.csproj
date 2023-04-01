@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Shared\Models\Instruction.cs" />
+    <Compile Include="Shared\Enums\InstructionClass.cs" />
+    <Compile Include="Shared\Models\InstructionCollection.cs" />
+    <Compile Include="Utilities\Assembler.cs" />
+    <Compile Include="Utilities\Parser.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,5 +99,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Shared\Files\InputFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Shared\Files\OutputFile.txt" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
