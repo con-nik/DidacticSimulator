@@ -55,11 +55,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interface.xaml.cs">
+      <DependentUpon>Interface.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shared\Models\Instruction.cs" />
     <Compile Include="Shared\Enums\InstructionClass.cs" />
     <Compile Include="Shared\Models\InstructionCollection.cs" />
     <Compile Include="Utilities\Assembler.cs" />
     <Compile Include="Utilities\Parser.cs" />
+    <Page Include="Interface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
