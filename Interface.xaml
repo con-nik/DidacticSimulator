@@ -901,6 +901,7 @@
         <Line X1="50" Y1="25" X2="50" Y2="25" Stroke="Black" StrokeThickness="10" StrokeEndLineCap="Triangle" RenderTransformOrigin="0.5,0.5" Margin="602,582,340,148"/>
         <Line X1="50" Y1="25" X2="50" Y2="25" Stroke="Black" StrokeThickness="10" StrokeEndLineCap="Triangle" RenderTransformOrigin="0.5,0.5" Margin="602,642,340,89"/>
         <Line X1="50" Y1="25" X2="50" Y2="25" Stroke="Black" StrokeThickness="10" StrokeEndLineCap="Triangle" RenderTransformOrigin="0.5,0.5" Margin="251,460,691,270"/>
+        <Button Content="Start" HorizontalAlignment="Left" Height="47" Margin="56,420,0,0" VerticalAlignment="Top" Width="100"/>
 
 
 
