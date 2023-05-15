@@ -58,9 +58,16 @@
     <Compile Include="Interface.xaml.cs">
       <DependentUpon>Interface.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Shared\Enums\ALUOperation.cs" />
+    <Compile Include="Shared\Enums\DbusSource.cs" />
+    <Compile Include="Shared\Enums\OtherOperations.cs" />
+    <Compile Include="Shared\Enums\RbusDestination.cs" />
+    <Compile Include="Shared\Enums\SbusSource.cs" />
+    <Compile Include="Shared\Enums\SeqState.cs" />
     <Compile Include="Shared\Models\Instruction.cs" />
     <Compile Include="Shared\Enums\InstructionClass.cs" />
     <Compile Include="Shared\Models\InstructionCollection.cs" />
+    <Compile Include="Simulator.cs" />
     <Compile Include="Utilities\Assembler.cs" />
     <Compile Include="Utilities\Parser.cs" />
     <Page Include="Interface.xaml">
@@ -110,8 +117,10 @@
     <Resource Include="Shared\Files\InputFile.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Shared\Files\OutputFile.txt" />
+    <Resource Include="Shared\Files\Program.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Shared\Files\Microprogram.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

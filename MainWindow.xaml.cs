@@ -30,6 +30,14 @@ namespace DidacticSimulator
         {
             Assembler assembler = new Assembler();
             assembler.ChangeInMachineCode(@"..\..\Shared\Files\InputFile.txt");
+
+            Simulator simulator = new Simulator();
+            simulator.LoadMicroprogram(@"..\..\Shared\Files\Microprogram.txt");
+            simulator.LoadProgram(@"..\..\Shared\Files\Program.txt");
+            simulator.Simulate();
+
+            Console.WriteLine("Done");
+
         }
     }
 }

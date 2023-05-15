@@ -73,7 +73,7 @@ namespace DidacticSimulator.Utilities
                 index++;
             }
 
-            using (StreamWriter writer = new StreamWriter(@"..\..\Shared\Files\OutputFile.txt"))
+            using (StreamWriter writer = new StreamWriter(@"..\..\Shared\Files\Program.txt"))
             {
                 foreach(string line in result)
                 {
