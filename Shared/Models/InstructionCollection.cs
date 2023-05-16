@@ -14,7 +14,10 @@ namespace DidacticSimulator.Shared.Models
         public InstructionCollection()
         {
             _instructions = new Dictionary<string, Instruction>();
+        }
 
+        public void InitializeInstructions()
+        {
             Dictionary<string, string> instructionsB1 = new Dictionary<string, string>()
             {
                 { "MOV", "0000" },
@@ -25,8 +28,8 @@ namespace DidacticSimulator.Shared.Models
                 { "OR", "0101" },
                 { "XOR", "0110"}
             };
-            
-            foreach(var kvp in instructionsB1)
+
+            foreach (var kvp in instructionsB1)
             {
                 Instruction instruction = new Instruction(kvp.Key, kvp.Value, Enums.InstructionClass.B1);
                 _instructions.Add(kvp.Key, instruction);
@@ -104,8 +107,6 @@ namespace DidacticSimulator.Shared.Models
                 Instruction instruction = new Instruction(kvp.Key, kvp.Value, Enums.InstructionClass.B4);
                 _instructions.Add(kvp.Key, instruction);
             }
-
-
         }
 
         public Dictionary<string, Instruction> Instructions => _instructions;
