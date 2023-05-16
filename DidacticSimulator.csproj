@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Shared\Enums\ALUOperation.cs" />
     <Compile Include="Shared\Enums\DbusSource.cs" />
+    <Compile Include="Shared\Enums\MemoryOperation.cs" />
     <Compile Include="Shared\Enums\OtherOperations.cs" />
     <Compile Include="Shared\Enums\RbusDestination.cs" />
     <Compile Include="Shared\Enums\SbusSource.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Shared\Models\Instruction.cs" />
     <Compile Include="Shared\Enums\InstructionClass.cs" />
     <Compile Include="Shared\Models\InstructionCollection.cs" />
-    <Compile Include="Simulator.cs" />
+    <Compile Include="Utilities\Simulator.cs" />
     <Compile Include="Utilities\Assembler.cs" />
     <Compile Include="Utilities\Parser.cs" />
     <Page Include="Interface.xaml">
