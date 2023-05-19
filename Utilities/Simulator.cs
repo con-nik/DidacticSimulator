@@ -709,6 +709,7 @@ namespace DidacticSimulator
                     IR = MEM[PC];
                     break;
                 case MemoryOperation.RD:
+                    if(ADR>0)
                     MDR = MEM[ADR];
                     break;
                 case MemoryOperation.WR:

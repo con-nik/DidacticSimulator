@@ -103,7 +103,7 @@
         <Label Content="Data In" HorizontalAlignment="Left" Margin="869,586,0,0" VerticalAlignment="Top" Height="26" Width="48"/>
         <Label Content="Address" HorizontalAlignment="Left" Margin="830,630,0,0" VerticalAlignment="Top" Height="26" Width="53"/>
         <Label Content="Data Out" HorizontalAlignment="Left" Margin="866,674,0,0" VerticalAlignment="Top" Height="26" Width="58"/>
-        <Button Content="Start" HorizontalAlignment="Left" Height="47" Margin="53,666,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="start_button" Content="Start" HorizontalAlignment="Left" Height="47" Margin="53,666,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
         <RichTextBox HorizontalAlignment="Left" Height="596" Margin="22,26,0,0" VerticalAlignment="Top" Width="179">
             <FlowDocument>
                 <Paragraph>
@@ -159,7 +159,7 @@
         <Label Content="R11" HorizontalAlignment="Left" Margin="840,399,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.492,1.157" Height="26" Width="30"/>
         <Label x:Name="R12_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="864,415,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
         <Label Content="R12" HorizontalAlignment="Left" Margin="840,415,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.492,1.157" Height="26" Width="30"/>
-        <Label x:Name="R133_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="864,430,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
+        <Label x:Name="R13_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="864,430,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
         <Label Content="R13" HorizontalAlignment="Left" Margin="840,430,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.492,1.157" Height="26" Width="30"/>
         <Label x:Name="R14_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="864,446,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
         <Label Content="R14" HorizontalAlignment="Left" Margin="840,446,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.492,1.157" Height="26" Width="30"/>
@@ -350,8 +350,8 @@
         <Label x:Name="ADR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="877,504,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="MDR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="877,543,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="IVR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="317,135,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
-        <Label x:Name="PC_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="310,91,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
-        <Label x:Name="T_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="309,60,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
+        <Label x:Name="PC_value" Content="{Binding Path=PC, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="310,91,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
+        <Label x:Name="T_value" Content="{Binding T, Mode=TwoWay}" HorizontalAlignment="Left" Margin="309,60,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="SP_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="309,24,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,551,0,0" VerticalAlignment="Top" Width="45"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,514,0,0" VerticalAlignment="Top" Width="171" RenderTransformOrigin="0.5,0.5">
