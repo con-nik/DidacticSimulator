@@ -28,10 +28,11 @@ namespace DidacticSimulator
     {
 
         Assembler assembler;
-        public int[] RG;
-        public int PC, T, IR, SP, IVR, ADR, MDR, FLAG;
-        public int SBUS, DBUS, RBUS;
-        public int[] MEM;
+        public short[] RG;
+        public short PC, T, IR, SP, IVR, MDR, FLAG;
+        public ushort ADR;
+        public short SBUS, DBUS, RBUS;
+        public short[] MEM;
         public int MAR;
         public long MIR;
         public long[] MPM;
@@ -45,11 +46,12 @@ namespace DidacticSimulator
         {
             InitializeComponent();
             assembler = new Assembler();
-            RG = new int[16];
-            MEM = new int[65536];
+            RG = new short[16];
+            MEM = new short[65536];
             MPM = new long[116];
             MAR = 0;
             BPO = 1;
+            BVI = 0;
             ACLOW = 0;
             CIL = 0;
             Z = 0;
@@ -57,6 +59,16 @@ namespace DidacticSimulator
             S = 0;
             V = 0;
             PC = 0;
+            T = 0;
+            IR = 0;
+            SP = 0;
+            IVR = 0;
+            MDR = 0;
+            FLAG = 0;
+            ADR = 0;
+            SBUS = 0;
+            DBUS = 0;
+            RBUS = 0;
             BE = 1;
             BI = 1;
         }
@@ -84,7 +96,7 @@ namespace DidacticSimulator
 
             for (int i = 0; i < lines.Length; i++)
             {
-                MEM[i] = Convert.ToInt32(lines[i], 2);
+                MEM[i] = Convert.ToInt16(lines[i], 2);
             }
         }
 
@@ -123,9 +135,9 @@ namespace DidacticSimulator
                         OtherOperations otherOperations = DecodeOtherOperations(MIR);
 
                         await ComputeSbusSource(sbusSource);
-                        ComputeDbusSourceAsync(dbusSource);
-                        ComputeALUOperation(aluOperation);
-                        ComputeRbusDestinationAsync(rbusDestination);
+                        await ComputeDbusSourceAsync(dbusSource);
+                        await ComputeALUOperation(aluOperation);
+                        await ComputeRbusDestinationAsync(rbusDestination);
                         await ComputeOtherOperations(otherOperations);
 
                         seqState = SeqState.S2;
@@ -135,7 +147,7 @@ namespace DidacticSimulator
                         break;
                     case SeqState.S3:
                         MemoryOperation memoryOperation = DecodeMemoryOperation(MIR);
-                        ComputeMemoryOperation(memoryOperation);
+                        await ComputeMemoryOperation(memoryOperation);
                         seqState = SeqState.S0;
                         break;
                 }
@@ -217,7 +229,7 @@ namespace DidacticSimulator
             //get bit 14
             int bit14 = ((IR >> 14) & 0b1);
             //get bit 13
-            int bit13 = ((IR >> 15) & 0b1);
+            int bit13 = ((IR >> 13) & 0b1);
 
             if (bit15 == 0)
             {
@@ -459,102 +471,66 @@ namespace DidacticSimulator
             {
                 case SbusSource.None:
                     break;
+
                 case SbusSource.PdFlag:
                     SBUS = FLAG;
-
-                    FLAGSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    FLAGSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(FLAGSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdRG:
                     int indexRG = (IR >> 6) & 0b1111;
                     SBUS = RG[indexRG];
-
-                    RGSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    RGSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(RGSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdSP:
                     SBUS = SP;
-
-                    SPSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    SPSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(SPSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdT:
                     SBUS = T;
-
-                    TSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    TSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(TSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PDNotT:
-                    SBUS = ~T;
-
-                    TSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    TSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    SBUS = Convert.ToInt16(~T);
+                    await ChangeTwoBordersBrush(TSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdPC:
                     SBUS = PC;
-
-                    PCSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    PCSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(PCSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdIVR:
                     SBUS = IVR;
-
-                    IVRSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    IVRSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(IVRSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdADR:
-                    SBUS = ADR;
-
-                    ADRSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    ADRSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    SBUS = (short)ADR;
+                    await ChangeTwoBordersBrush(ADRSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PdMDR:
                     SBUS = MDR;
-
-                    MDRSBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    MDRSBUS.BorderBrush = Brushes.Black;
-
-                    SBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(MDRSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PDIR70:
-                    SBUS = IR & 0b11111111;
-
-                    SBUSBorderColorAsync();
+                    SBUS = Convert.ToInt16(IR & 0b11111111);
+                    await ChangeTwoBordersBrush(IRSBUS, SBUSBorder);
                     break;
+
                 case SbusSource.PD0:
                     SBUS = 0;
-
-                    SBUSBorderColorAsync();
+                    await ChangeOneBorderColor(SBUSBorder);
                     break;
+
                 case SbusSource.PdMinus1:
                     SBUS = -1;
-
-                    SBUSBorderColorAsync();
+                    await ChangeOneBorderColor(SBUSBorder);
                     break;
             }
         }
@@ -566,199 +542,189 @@ namespace DidacticSimulator
                     break;
                 case DbusSource.PdFlag:
                     DBUS = FLAG;
-
-                    FLAGDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    FLAGDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(FLAGDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PdRG:
                     int indexRG = IR & 0b1111;
                     DBUS = RG[indexRG];
-
-                    RGDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    RGDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(RGDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PdSP:
                     DBUS = SP;
-
-                    SPDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    SPDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(SPDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PdT:
                     DBUS = T;
-
-                    TDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    TDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(TDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PdPC:
                     DBUS = PC;
-
-                    PCDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    PCDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(PCDBUS, DBUSBorder);
                     break;
                 case DbusSource.PdIVR:
                     DBUS = IVR;
-
-                    IVRDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    IVRDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(IVRDBUS, DBUSBorder);
                     break;
                 case DbusSource.PdADR:
-                    DBUS = ADR;
-
-                    ADRDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    ADRDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    DBUS = (short)ADR;
+                    await ChangeTwoBordersBrush(ADRDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PdMDR:
                     DBUS = MDR;
-
-                    MDRDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    MDRDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
+                    await ChangeTwoBordersBrush(MDRDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PdNotMDR:
-                    DBUS = ~MDR;
-
-                    MDRDBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    MDRDBUS.BorderBrush = Brushes.Black;
-
-                    DBUSBorderColorAsync();
-                    
+                    DBUS = Convert.ToInt16(~MDR);
+                    await ChangeTwoBordersBrush(MDRDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PDIR70:
-                    SBUS = IR & 0b11111111;
-
-                    DBUSBorderColorAsync();
+                    SBUS = Convert.ToInt16(IR & 0b11111111);
+                    await ChangeTwoBordersBrush(IRDBUS, DBUSBorder);
                     break;
+
                 case DbusSource.PD0:
                     DBUS = 0;
-
-                    DBUSBorderColorAsync();
+                    await ChangeOneBorderColor(DBUSBorder);
                     break;
+
                 case DbusSource.PdMinus1:
                     DBUS = -1;
-
-                    DBUSBorderColorAsync();
+                    await ChangeOneBorderColor(DBUSBorder);
                     break;
             }
         }
-        private void ComputeALUOperation(ALUOperation aluOperation)
+        private async Task ComputeALUOperation(ALUOperation aluOperation)
         {
             switch (aluOperation)
             {
                 case ALUOperation.None:
                     break;
+
                 case ALUOperation.SBUS:
                     RBUS = SBUS;
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.DBUS:
                     RBUS = DBUS;
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.ADD:
-                    RBUS = DBUS + SBUS;
+                    RBUS = Convert.ToInt16(DBUS + SBUS);
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.SUB:
-                    RBUS = DBUS - SBUS;
+                    RBUS = Convert.ToInt16(DBUS - SBUS);
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.AND:
-                    RBUS = DBUS & SBUS;
+                    RBUS = Convert.ToInt16(DBUS & SBUS);
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.OR:
-                    RBUS = DBUS | SBUS;
+                    RBUS = Convert.ToInt16(DBUS | SBUS);
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.XOR:
-                    RBUS = DBUS ^ SBUS;
+                    RBUS = Convert.ToInt16(DBUS ^ SBUS);
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.ASL:
-                    RBUS = (DBUS << 1) & 0xFFFF;
+                    RBUS = Convert.ToInt16((DBUS << 1) & 0xFFFF);
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.ASR:
                     int bit16ASR = (DBUS >> 15) & 0b1;
                     if (bit16ASR == 0)
                     {
-                        RBUS = (DBUS >> 1);
+                        RBUS = Convert.ToInt16((DBUS >> 1));
                     }
                     else
                     {
-                        RBUS = (DBUS >> 1) | 0x8000;
+                        RBUS = Convert.ToInt16((DBUS >> 1) | 0x8000);
                     }
+
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.LSR:
-                    RBUS = (DBUS >> 1);
+                    RBUS = Convert.ToInt16((DBUS >> 1));
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.ROL:
                     int bit16ROL = (DBUS >> 15) & 0b1;
                     if (bit16ROL == 0)
                     {
-                        RBUS = (DBUS << 1);
+                        RBUS = Convert.ToInt16((DBUS << 1));
                     }
                     else
                     {
-                        RBUS = (DBUS << 1) ^ 0b1;
+                        RBUS = Convert.ToInt16((DBUS << 1) ^ 0b1);
                     }
+
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.ROR:
                     int bit1ROR = DBUS & 0b1;
                     if (bit1ROR == 0)
                     {
-                        RBUS = (DBUS >> 1);
+                        RBUS = Convert.ToInt16((DBUS >> 1));
                     }
                     else
                     {
-                        RBUS = (DBUS >> 1) ^ 0x8000;
+                        RBUS = Convert.ToInt16((DBUS >> 1) ^ 0x8000);
                     }
+
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.RLC:
                     int bit16RLC = (DBUS >> 15) & 0b1;
 
                     if (C == 0)
                     {
-                        RBUS = (DBUS << 1);
+                        RBUS = Convert.ToInt16((DBUS << 1));
                     }
                     else
                     {
-                        RBUS = (DBUS << 1) ^ 0b1;
+                        RBUS = Convert.ToInt16((DBUS << 1) ^ 0b1);
                     }
 
                     C = bit16RLC;
+                    await ChangeRBUSBorderColor();
                     break;
+
                 case ALUOperation.RRC:
                     int bit1RRC = DBUS & 0b1;
                     if (C == 0)
                     {
-                        RBUS = (DBUS >> 1);
+                        RBUS = Convert.ToInt16((DBUS >> 1));
                     }
                     else
                     {
-                        RBUS = (DBUS >> 1) ^ 0x8000;
+                        RBUS = Convert.ToInt16((DBUS >> 1) ^ 0x8000);
                     }
+
                     C = bit1RRC;
+                    await ChangeRBUSBorderColor();
                     break;
-
             }
-
         }
         private async Task ComputeRbusDestinationAsync(RbusDestination rbusDestination)
         {
@@ -768,95 +734,57 @@ namespace DidacticSimulator
                     break;
                 case RbusDestination.PmFLAG:
                     FLAG = RBUS;
+                    await ChangeTwoBordersBrush(PMFLAG1Border, PMFLAG2Border);
                     FLAG_value.Content = Convert.ToString(FLAG, 2).PadLeft(16, '0');
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
+
                 case RbusDestination.PMFLAG30:
-                    FLAG = (FLAG & 0b10000) | (RBUS & 0b1111);
+                    FLAG = Convert.ToInt16((FLAG & 0b10000) | (RBUS & 0b1111));
+                    await ChangeTwoBordersBrush(PMFLAG1Border, PMFLAG2Border);
+                    FLAG_value.Content = Convert.ToString(FLAG, 2).PadLeft(16, '0');
                     break;
+
                 case RbusDestination.PmRG:
                     int indexRG = IR & 0b1111;
                     RG[indexRG] = RBUS;
-
-                    RGContentLabelAsync();
-
-                    RGRBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    RGRBUS.BorderBrush = Brushes.Black;
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
+                    await ChangeOneBorderColor(RGRBUS);
+                    RGContentLabel();
                     break;
+
                 case RbusDestination.PmSP:
                     SP = RBUS;
+                    await ChangeOneBorderColor(SPRBUS);
                     SP_value.Content = Convert.ToString(SP, 2).PadLeft(16, '0');
-
-                    SPRBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    SPRBUS.BorderBrush = Brushes.Black;
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
+
                 case RbusDestination.PmT:
                     T = RBUS;
+                    await ChangeOneBorderColor(TRBUS);
                     T_value.Content = Convert.ToString(T, 2).PadLeft(16, '0');
-
-                    TRBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    TRBUS.BorderBrush = Brushes.Black;
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
+
                 case RbusDestination.PmPC:
                     PC = RBUS;
+                    await ChangeOneBorderColor(PCRBUS);
                     PC_value.Content = Convert.ToString(PC, 2).PadLeft(16, '0');
-
-                    PCRBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    PCRBUS.BorderBrush = Brushes.Black;
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
+
                 case RbusDestination.PmIVR:
                     IVR = RBUS;
+                    await ChangeOneBorderColor(IVRRBUS);
                     IVR_value.Content = Convert.ToString(IVR, 2).PadLeft(16, '0');
-
-                    IVRRBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    IVRRBUS.BorderBrush = Brushes.Black;
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
+
                 case RbusDestination.PmADR:
-                    ADR = RBUS;
+                    ADR = (ushort)RBUS;
+                    await ChangeOneBorderColor(ADRRBUS);
                     ADR_value.Content = Convert.ToString(ADR, 2).PadLeft(16, '0');
-
-                    ADRRBUS.BorderBrush = Brushes.Red;
-                    await DelayOneSecond();
-                    ADRRBUS.BorderBrush = Brushes.Black;
-
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
+
                 case RbusDestination.PmMDR:
                     MDR = RBUS;
+                    await ChangeTwoBordersBrush(PMMDR1Border, PMMDR2Border);
                     MDR_value.Content = Convert.ToString(MDR, 2).PadLeft(16, '0');
-                    RBUSBorderColorAsync();
-
-                    await DelayOneSecond();
                     break;
             }
         }
@@ -871,43 +799,55 @@ namespace DidacticSimulator
                     SP_value.Content = Convert.ToString(SP, 2).PadLeft(16, '0');
                     await DelayOneSecond();
                     break;
+
                 case OtherOperations.minus2SP:
                     SP -= 2;
                     SP_value.Content = Convert.ToString(SP, 2).PadLeft(16, '0');
                     await DelayOneSecond();
                     break;
+
                 case OtherOperations.plus2PC:
                     PC += 1;
                     PC_value.Content = Convert.ToString(PC, 2).PadLeft(16, '0');
                     await DelayOneSecond();
                     break;
+
                 case OtherOperations.A1BE0:
                     ACLOW = 1;
                     break;
+
                 case OtherOperations.A1BE1:
                     CIL = 1;
                     break;
+
                 case OtherOperations.PdCONDA:
 
                     break;
+
                 case OtherOperations.CinPdCONDA:
 
                     break;
+
                 case OtherOperations.PdCONDL:
 
                     break;
+
                 case OtherOperations.A1BVI:
                     BVI = 1;
                     break;
+
                 case OtherOperations.A0BVI:
                     BVI = 0;
                     break;
+
                 case OtherOperations.A0BPO:
                     BPO = 0;
                     break;
+
                 case OtherOperations.INTAminus2SP:
                     SP -= 2;
                     break;
+
                 case OtherOperations.A0BEA0BI:
                     BE = 0;
                     BI = 0;
@@ -915,18 +855,21 @@ namespace DidacticSimulator
             }
         }
 
-        private void ComputeMemoryOperation(MemoryOperation memoryOperation)
+        private async Task ComputeMemoryOperation(MemoryOperation memoryOperation)
         {
             switch (memoryOperation)
             {
                 case MemoryOperation.None:
                     break;
                 case MemoryOperation.IFCH:
-                    IR = MEM[PC];
+                    IR = MEM[PC - 1];
+                    IR_value.Content = Convert.ToString(IR, 2).PadLeft(16, '0');
+                    await DelayOneSecond();
                     break;
                 case MemoryOperation.RD:
-                    if (ADR > 0)
-                        MDR = MEM[ADR];
+                    MDR = MEM[ADR];
+                    MDR_value.Content = Convert.ToString(MDR, 2).PadLeft(16, '0');
+                    await DelayOneSecond();
                     break;
                 case MemoryOperation.WR:
                     MEM[ADR] = MDR;
@@ -934,77 +877,60 @@ namespace DidacticSimulator
             }
         }
 
+        #endregion
+
         public async Task DelayOneSecond()
         {
             await Task.Delay(1000);
         }
 
-        public async Task RBUSBorderColorAsync()
+        public async Task ChangeOneBorderColor(Border FisrtBorder)
+        {
+            FisrtBorder.BorderBrush = Brushes.Red;
+            await DelayOneSecond();
+            FisrtBorder.BorderBrush = Brushes.Black;
+        }
+
+        public async Task ChangeTwoBordersBrush(Border FisrtBorder, Border SecondBorder)
+        {
+            FisrtBorder.BorderBrush = Brushes.Red;
+            SecondBorder.BorderBrush = Brushes.Red;
+            await DelayOneSecond();
+            FisrtBorder.BorderBrush = Brushes.Black;
+            SecondBorder.BorderBrush = Brushes.Black;
+        }
+
+        public async Task ChangeRBUSBorderColor()
         {
             RBUS1Border.BorderBrush = Brushes.Red;
-            await DelayOneSecond();
-            RBUS1Border.BorderBrush = Brushes.Black;
-
             RBUS2Border.BorderBrush = Brushes.Red;
-            await DelayOneSecond();
-            RBUS2Border.BorderBrush = Brushes.Black;
-
             RBUS3Border.BorderBrush = Brushes.Red;
             await DelayOneSecond();
+            RBUS1Border.BorderBrush = Brushes.Black;
+            RBUS2Border.BorderBrush = Brushes.Black;
             RBUS3Border.BorderBrush = Brushes.Black;
         }
 
-        public async Task DBUSBorderColorAsync()
-        {
-            DBUSBorder.BorderBrush = Brushes.Red;
-            await DelayOneSecond();
-            DBUSBorder.BorderBrush = Brushes.Black;
-        }
 
-        public async Task SBUSBorderColorAsync()
-        {
-            SBUSBorder.BorderBrush = Brushes.Red;
-            await DelayOneSecond();
-            SBUSBorder.BorderBrush = Brushes.Black;
-        }
 
-        public async Task RGContentLabelAsync()
+        public void RGContentLabel()
         {
             R0_value.Content = Convert.ToString(RG[0], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R1_value.Content = Convert.ToString(RG[1], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R2_value.Content = Convert.ToString(RG[2], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R3_value.Content = Convert.ToString(RG[3], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R4_value.Content = Convert.ToString(RG[4], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R5_value.Content = Convert.ToString(RG[5], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R6_value.Content = Convert.ToString(RG[6], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R7_value.Content = Convert.ToString(RG[7], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R8_value.Content = Convert.ToString(RG[8], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R9_value.Content = Convert.ToString(RG[9], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R10_value.Content = Convert.ToString(RG[10], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R11_value.Content = Convert.ToString(RG[11], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R12_value.Content = Convert.ToString(RG[12], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R13_value.Content = Convert.ToString(RG[13], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R14_value.Content = Convert.ToString(RG[14], 2).PadLeft(16, '0');
-            await DelayOneSecond();
             R15_value.Content = Convert.ToString(RG[15], 2).PadLeft(16, '0');
-            await DelayOneSecond();
         }
-        #endregion
-
-
     }
 }
