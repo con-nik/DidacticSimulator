@@ -12,7 +12,7 @@
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="480" Margin="719,62,0,0" VerticalAlignment="Top" Width="2"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="560" Margin="719,10,0,0" VerticalAlignment="Top" Width="2"/>
+        <Border x:Name="SBUSBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="560" Margin="719,10,0,0" VerticalAlignment="Top" Width="2"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="562" Margin="792,7,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
@@ -350,8 +350,8 @@
         <Label x:Name="ADR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="877,504,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="MDR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="877,543,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="IVR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="317,135,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
-        <Label x:Name="PC_value" Content="{Binding Path=PC, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="310,91,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
-        <Label x:Name="T_value" Content="{Binding T, Mode=TwoWay}" HorizontalAlignment="Left" Margin="309,60,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
+        <Label x:Name="PC_value" Content="0000000000000000"  HorizontalAlignment="Left" Margin="310,91,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
+        <Label x:Name="T_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="309,60,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="SP_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="309,24,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,551,0,0" VerticalAlignment="Top" Width="45"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,514,0,0" VerticalAlignment="Top" Width="171" RenderTransformOrigin="0.5,0.5">
