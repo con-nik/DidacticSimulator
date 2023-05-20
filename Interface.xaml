@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="480" Margin="719,62,0,0" VerticalAlignment="Top" Width="2"/>
         <Border x:Name="SBUSBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="560" Margin="719,10,0,0" VerticalAlignment="Top" Width="2"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="562" Margin="792,7,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="DBUSBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="562" Margin="792,7,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -53,8 +53,8 @@
         </Border>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="27" Margin="848,159,0,0" Stroke="Black" VerticalAlignment="Top" Width="148"/>
         <Label Content="FLAG" HorizontalAlignment="Left" Margin="853,160,0,0" VerticalAlignment="Top" Height="26" Width="37"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,164,0,0" VerticalAlignment="Top" Width="54"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="721,177,0,0" VerticalAlignment="Top" Width="126" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="FLAGDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,164,0,0" VerticalAlignment="Top" Width="54"/>
+        <Border x:Name="FLAGSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="721,177,0,0" VerticalAlignment="Top" Width="126" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -77,8 +77,8 @@
             </Rectangle.RenderTransform>
         </Rectangle>
         <Label Content="REGISTER FILE" HorizontalAlignment="Left" Margin="864,207,0,0" VerticalAlignment="Top" Height="26" Width="85"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,247,0,0" VerticalAlignment="Top" Width="46"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="721,274,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="RGDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,247,0,0" VerticalAlignment="Top" Width="46"/>
+        <Border x:Name="RGSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="721,274,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -88,7 +88,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="975,252,0,0" VerticalAlignment="Top" Width="186" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="RGRBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="975,252,0,0" VerticalAlignment="Top" Width="186" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -111,7 +111,7 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="234,729,0,0" VerticalAlignment="Top" Width="927" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="RBUS2Border" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="234,729,0,0" VerticalAlignment="Top" Width="927" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -121,7 +121,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="721" Margin="234,10,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="RBUS3Border" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="721" Margin="234,10,0,0" VerticalAlignment="Top" Width="2" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -171,7 +171,7 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Margin="293,60,0,0" Stroke="Black" VerticalAlignment="Top" Width="131"/>
         <Label Content="SP" HorizontalAlignment="Left" Margin="293,24,0,0" VerticalAlignment="Top" Width="26" RenderTransformOrigin="-2.362,0.609" Height="26"/>
         <Label Content="T" HorizontalAlignment="Left" Margin="293,61,0,0" VerticalAlignment="Top" RenderTransformOrigin="-12.837,0.109" Height="26" Width="16"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="421,27,0,0" VerticalAlignment="Top" Width="371" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="SPDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="421,27,0,0" VerticalAlignment="Top" Width="371" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -181,7 +181,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="421,41,0,0" VerticalAlignment="Top" Width="298" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="SPSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="421,41,0,0" VerticalAlignment="Top" Width="298" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -192,7 +192,7 @@
             </Border.RenderTransform>
         </Border>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Margin="293,92,0,0" Stroke="Black" VerticalAlignment="Top" Width="131"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="423,63,0,0" VerticalAlignment="Top" Width="370" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="TDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="423,63,0,0" VerticalAlignment="Top" Width="370" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -202,7 +202,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="424,75,0,0" VerticalAlignment="Top" Width="295" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="TSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="424,75,0,0" VerticalAlignment="Top" Width="295" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -213,7 +213,7 @@
             </Border.RenderTransform>
         </Border>
         <Label Content="PC" HorizontalAlignment="Left" Margin="290,92,0,0" VerticalAlignment="Top" Height="26" Width="24"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="424,94,0,0" VerticalAlignment="Top" Width="369" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="PCDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="424,94,0,0" VerticalAlignment="Top" Width="369" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -223,7 +223,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="424,107,0,0" VerticalAlignment="Top" Width="296" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="PCSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="424,107,0,0" VerticalAlignment="Top" Width="296" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -233,8 +233,8 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,512,0,0" VerticalAlignment="Top" Width="56"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="721,522,0,0" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="ADRDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,512,0,0" VerticalAlignment="Top" Width="56"/>
+        <Border x:Name="ADRSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="721,522,0,0" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -256,8 +256,8 @@
         </Border>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="27" Margin="850,543,0,0" Stroke="Black" VerticalAlignment="Top" Width="141"/>
         <Label Content="MDR" HorizontalAlignment="Left" Margin="848,544,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.518,2.117" Height="26" Width="37"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,551,0,0" VerticalAlignment="Top" Width="56"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="720,563,0,0" VerticalAlignment="Top" Width="130" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="MDRDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="794,551,0,0" VerticalAlignment="Top" Width="56"/>
+        <Border x:Name="MDRSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="720,563,0,0" VerticalAlignment="Top" Width="130" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -269,7 +269,7 @@
         </Border>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="24" Margin="293,135,0,0" Stroke="Black" VerticalAlignment="Top" Width="139"/>
         <Label Content="IVR" HorizontalAlignment="Left" Margin="290,135,0,0" VerticalAlignment="Top" Height="26" Width="27"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="432,138,0,0" VerticalAlignment="Top" Width="360" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="IVRDBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="432,138,0,0" VerticalAlignment="Top" Width="360" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -279,7 +279,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
         </Border>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="432,148,0,0" VerticalAlignment="Top" Width="288" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="IVRSBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="432,148,0,0" VerticalAlignment="Top" Width="288" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -302,10 +302,10 @@
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="62" Margin="583,122,0,0" VerticalAlignment="Top" Width="1"/>
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="6" Margin="349,159,0,0" VerticalAlignment="Top" Width="1"/>
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="349,165,0,0" VerticalAlignment="Top" Width="124"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,28,0,0" VerticalAlignment="Top" Width="58"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,70,0,0" VerticalAlignment="Top" Width="58"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,102,0,0" VerticalAlignment="Top" Width="58"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,146,0,0" VerticalAlignment="Top" Width="58"/>
+        <Border x:Name="SPRBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,28,0,0" VerticalAlignment="Top" Width="58"/>
+        <Border x:Name="TRBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,70,0,0" VerticalAlignment="Top" Width="58"/>
+        <Border x:Name="PCRBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,102,0,0" VerticalAlignment="Top" Width="58"/>
+        <Border x:Name="IVRRBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="235,146,0,0" VerticalAlignment="Top" Width="58"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="635,473,0,0" VerticalAlignment="Top" Width="157" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
@@ -354,7 +354,7 @@
         <Label x:Name="T_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="309,60,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Label x:Name="SP_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="309,24,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,551,0,0" VerticalAlignment="Top" Width="45"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,514,0,0" VerticalAlignment="Top" Width="171" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="ADRRBUS" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="990,514,0,0" VerticalAlignment="Top" Width="171" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1" ScaleX="1"/>
@@ -478,7 +478,7 @@
         </Border>
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="13" Margin="907,58,0,0" VerticalAlignment="Top" Width="1"/>
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="19" Margin="472,165,0,0" VerticalAlignment="Top" Width="1"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="722" Margin="1161,8,0,0" VerticalAlignment="Top" Width="2"/>
+        <Border x:Name="RBUS1Border" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="722" Margin="1161,8,0,0" VerticalAlignment="Top" Width="2"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="45" Margin="1035,544,0,0" Stroke="Black" VerticalAlignment="Top" Width="56"/>
         <Label Content="MUX" HorizontalAlignment="Left" Margin="1045,552,0,0" VerticalAlignment="Top"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="1091,554,0,0" VerticalAlignment="Top" Width="70"/>
