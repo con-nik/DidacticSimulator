@@ -174,9 +174,9 @@ namespace DidacticSimulator
 
                         await ComputeOtherOperations(otherOperations);
                         await ComputeSbusSource(sbusSource);
-                        await ComputeDbusSourceAsync(dbusSource);
+                        await ComputeDbusSource(dbusSource);
                         await ComputeALUOperation(aluOperation);
-                        await ComputeRbusDestinationAsync(rbusDestination);
+                        await ComputeRbusDestination(rbusDestination);
 
 
                         seqState = SeqState.S2;
@@ -575,7 +575,7 @@ namespace DidacticSimulator
                     break;
             }
         }
-        private async Task ComputeDbusSourceAsync(DbusSource dbusSource)
+        private async Task ComputeDbusSource(DbusSource dbusSource)
         {
             switch (dbusSource)
             {
@@ -772,7 +772,7 @@ namespace DidacticSimulator
                     break;
             }
         }
-        private async Task ComputeRbusDestinationAsync(RbusDestination rbusDestination)
+        private async Task ComputeRbusDestination(RbusDestination rbusDestination)
         {
             switch (rbusDestination)
             {

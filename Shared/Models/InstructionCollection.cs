@@ -10,14 +10,20 @@ namespace DidacticSimulator.Shared.Models
     internal class InstructionCollection
     {
         private Dictionary<string, Instruction> _instructions;
+        private bool _init;
 
         public InstructionCollection()
         {
             _instructions = new Dictionary<string, Instruction>();
+            _init = false;
         }
 
         public void InitializeInstructions()
         {
+            if(_init == true) {
+                return;
+            }
+
             Dictionary<string, string> instructionsB1 = new Dictionary<string, string>()
             {
                 { "MOV", "0000" },
@@ -110,6 +116,8 @@ namespace DidacticSimulator.Shared.Models
                 Instruction instruction = new Instruction(kvp.Key, kvp.Value, Enums.InstructionClass.B4);
                 _instructions.Add(kvp.Key, instruction);
             }
+
+            _init = true;
         }
 
         public Dictionary<string, Instruction> Instructions => _instructions;
