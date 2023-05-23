@@ -3,13 +3,9 @@ using DidacticSimulator.Utilities;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,11 +19,10 @@ using System.Windows.Shapes;
 namespace DidacticSimulator
 {
     /// <summary>
-    /// Interaction logic for Interface.xaml
+    /// Interaction logic for Simulator.xaml
     /// </summary>
-    public partial class Interface : Window
+    public partial class Simulator : Window
     {
-
         Assembler assembler;
         public short[] RG;
         public short PC, T, IR, SP, IVR, MDR, FLAG;
@@ -43,9 +38,7 @@ namespace DidacticSimulator
         public int CIN;
         public int BE, BI;
         public string inputFilePath;
-
-
-        public Interface()
+        public Simulator()
         {
             InitializeComponent();
             Clear();
@@ -55,19 +48,19 @@ namespace DidacticSimulator
 
             RG = new short[16];
 
-            for(int i=0; i < RG.Length; i++)
+            for (int i = 0; i < RG.Length; i++)
             {
                 RG[i] = 0;
             }
             MEM = new short[65536];
 
-            for(int i=0;i < MEM.Length; i++)
+            for (int i = 0; i < MEM.Length; i++)
             {
                 MEM[i] = 0;
             }
             MPM = new long[116];
 
-            for(int i=0; i<MPM.Length; i++)
+            for (int i = 0; i < MPM.Length; i++)
             {
                 MPM[i] = 0;
             }
@@ -96,6 +89,7 @@ namespace DidacticSimulator
 
             #endregion
         }
+
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             assembler.ChangeInMachineCode(inputFilePath);
@@ -107,7 +101,7 @@ namespace DidacticSimulator
         public void LoadMicroprogram(string filePath, string filePathText)
         {
             string[] lines = File.ReadAllLines(filePath);
-            
+
             for (int i = 0; i < lines.Length; i++)
             {
                 MPM[i] = Convert.ToInt64(lines[i], 2);
@@ -163,7 +157,7 @@ namespace DidacticSimulator
                         int bit18 = (int)(MIR >> 18) & 0b1;
                         int bit19 = (int)(MIR >> 19) & 0b1;
 
-                        if(bit18 == 0 && bit19 == 0)
+                        if (bit18 == 0 && bit19 == 0)
                         {
                             seqState = SeqState.S0;
                         }
@@ -183,7 +177,7 @@ namespace DidacticSimulator
                         await ComputeDbusSourceAsync(dbusSource);
                         await ComputeALUOperation(aluOperation);
                         await ComputeRbusDestinationAsync(rbusDestination);
-                        
+
 
                         seqState = SeqState.S2;
                         break;
@@ -373,7 +367,7 @@ namespace DidacticSimulator
             }
         }
 
-        
+
 
         private ALUOperation DecodeALUOperation(long MIR)
         {
@@ -873,7 +867,7 @@ namespace DidacticSimulator
                     break;
 
                 case OtherOperations.PdCONDA:
-                    int tempFlagA = ((C  << 3) | (Z  << 2) | (S  << 1) | V );
+                    int tempFlagA = ((C << 3) | (Z << 2) | (S << 1) | V);
                     FLAG = (short)tempFlagA;
                     break;
 
@@ -996,7 +990,7 @@ namespace DidacticSimulator
             openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
             openFileDialog.InitialDirectory = "C:\\";
             openFileDialog.Title = "Select a Text File";
-            
+
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
@@ -1033,8 +1027,8 @@ namespace DidacticSimulator
 
             short signedResult = (short)(result);
 
-            V = ((signedResult < 0 && number1 > 0 && number2 > 0 )
-                ||(signedResult > 0 && number1 < 0 && number2 < 0)) ? 1 : 0;
+            V = ((signedResult < 0 && number1 > 0 && number2 > 0)
+                || (signedResult > 0 && number1 < 0 && number2 < 0)) ? 1 : 0;
 
             Z = (result == 0) ? 1 : 0;
 

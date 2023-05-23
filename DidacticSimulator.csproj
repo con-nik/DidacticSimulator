@@ -55,9 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Interface.xaml.cs">
-      <DependentUpon>Interface.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Shared\Enums\ALUOperation.cs" />
     <Compile Include="Shared\Enums\DbusSource.cs" />
     <Compile Include="Shared\Enums\MemoryOperation.cs" />
@@ -68,12 +65,11 @@
     <Compile Include="Shared\Models\Instruction.cs" />
     <Compile Include="Shared\Enums\InstructionClass.cs" />
     <Compile Include="Shared\Models\InstructionCollection.cs" />
+    <Compile Include="Simulator.xaml.cs">
+      <DependentUpon>Simulator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Assembler.cs" />
     <Compile Include="Utilities\Parser.cs" />
-    <Page Include="Interface.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,6 +82,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Simulator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
