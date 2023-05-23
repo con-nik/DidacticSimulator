@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DidacticSimulator"
         mc:Ignorable="d"
-        Title="Interface" Height="800" Width="1200">
+        Title="Interface" Height="900" Width="1200" WindowState="Maximized">
     <Grid Margin="0,0,3.6,0.4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -103,7 +103,7 @@
         <Label Content="Data In" HorizontalAlignment="Left" Margin="869,586,0,0" VerticalAlignment="Top" Height="26" Width="48"/>
         <Label Content="Address" HorizontalAlignment="Left" Margin="830,630,0,0" VerticalAlignment="Top" Height="26" Width="53"/>
         <Label Content="Data Out" HorizontalAlignment="Left" Margin="866,674,0,0" VerticalAlignment="Top" Height="26" Width="58"/>
-        <Button x:Name="start_button" Content="Start" HorizontalAlignment="Left" Height="47" Margin="62,664,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+        <Button x:Name="start_button" Content="Start" HorizontalAlignment="Left" Height="47" Margin="62,768,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click" RenderTransformOrigin="0.328,2.04"/>
         <Border x:Name="RBUS2Border" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="234,729,0,0" VerticalAlignment="Top" Width="927" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
@@ -511,13 +511,15 @@
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="15" Margin="916,186,0,0" VerticalAlignment="Top" Width="1"/>
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="22" Margin="1059,179,0,0" VerticalAlignment="Top" Width="1"/>
         <Label x:Name="IR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="524,469,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
-        <RichTextBox Margin="10,13,982,141">
+        <Button x:Name="uploadFile" Content="Upload File" HorizontalAlignment="Left" Margin="62,17,0,0" VerticalAlignment="Top" Width="75" Click="uploadFile_Click"/>
+        <RichTextBox x:Name="inputContent" HorizontalAlignment="Left" Height="685" Margin="10,45,0,0" VerticalAlignment="Top" Width="205">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="RichTextBox"/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <Label x:Name="microinstruction" Content="" HorizontalAlignment="Left" Margin="235,768,0,0" VerticalAlignment="Top" Width="921"/>
 
 
 

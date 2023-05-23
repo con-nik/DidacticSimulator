@@ -1,5 +1,6 @@
 ﻿using DidacticSimulator.Shared.Enums;
 using DidacticSimulator.Utilities;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,6 +37,7 @@ namespace DidacticSimulator
         public int MAR;
         public long MIR;
         public long[] MPM;
+        public string[] MPMText;
         public int BPO, BVI;
         public int ACLOW, CIL, C, Z, S, V;
         public int CIN;
@@ -45,31 +47,37 @@ namespace DidacticSimulator
         public Interface()
         {
             InitializeComponent();
+            Clear();
             assembler = new Assembler();
+            assembler.ChangeInMachineCode(@"..\..\Shared\Files\InputFile.txt");
+            #region Initialize
+
             RG = new short[16];
+
             for(int i=0; i < RG.Length; i++)
             {
                 RG[i] = 0;
             }
             MEM = new short[65536];
+
             for(int i=0;i < MEM.Length; i++)
             {
                 MEM[i] = 0;
             }
             MPM = new long[116];
+
             for(int i=0; i<MPM.Length; i++)
             {
                 MPM[i] = 0;
             }
+
+            MPMText = new string[116];
             MAR = 0;
             BPO = 1;
             BVI = 1;
             ACLOW = 0;
             CIL = 0;
-            Z = 0;
-            C = 0;
-            S = 0;
-            V = 0;
+            Z = C = S = V = 0;
             PC = -1;
             T = 0;
             IR = 0;
@@ -83,22 +91,30 @@ namespace DidacticSimulator
             RBUS = 0;
             BE = 1;
             BI = 1;
+
+            #endregion
         }
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            assembler.ChangeInMachineCode(@"..\..\Shared\Files\InputFile.txt");
-            LoadMicroprogram(@"..\..\Shared\Files\Microprogram.txt");
+            LoadMicroprogram(@"..\..\Shared\Files\Microprogram.txt", @"..\..\Shared\Files\MicroprogramText.txt");
             LoadProgram(@"..\..\Shared\Files\Program.txt");
             await Simulate();
         }
 
-        public void LoadMicroprogram(string filePath)
+        public void LoadMicroprogram(string filePath, string filePathText)
         {
             string[] lines = File.ReadAllLines(filePath);
-
+            
             for (int i = 0; i < lines.Length; i++)
             {
                 MPM[i] = Convert.ToInt64(lines[i], 2);
+            }
+
+            string[] linesText = File.ReadAllLines(filePathText);
+
+            for (int i = 0; i < linesText.Length; i++)
+            {
+                MPMText[i] = linesText[i];
             }
         }
 
@@ -124,6 +140,7 @@ namespace DidacticSimulator
                 {
                     case SeqState.S0:
                         MIR = MPM[MAR];
+                        microinstruction.Content = MPMText[MAR];
                         seqState = SeqState.S1;
                         break;
                     case SeqState.S1:
@@ -352,6 +369,8 @@ namespace DidacticSimulator
                     return DbusSource.None;
             }
         }
+
+        
 
         private ALUOperation DecodeALUOperation(long MIR)
         {
@@ -956,6 +975,41 @@ namespace DidacticSimulator
             R13_value.Content = Convert.ToString(RG[13], 2).PadLeft(16, '0');
             R14_value.Content = Convert.ToString(RG[14], 2).PadLeft(16, '0');
             R15_value.Content = Convert.ToString(RG[15], 2).PadLeft(16, '0');
+        }
+
+        private void uploadFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            openFileDialog.InitialDirectory = "C:\\";
+            openFileDialog.Title = "Select a Text File";
+            
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    using (StreamReader sr = new StreamReader(filePath))
+                    {
+                        string fileContent = sr.ReadToEnd();
+                        inputContent.Document.Blocks.Clear();
+                        inputContent.AppendText(fileContent);
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Error reading the file: " + ex.Message);
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            inputContent.SelectAll();
+
+            inputContent.Selection.Text = "";
         }
     }
 }

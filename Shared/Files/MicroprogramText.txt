@@ -1,0 +1,116 @@
+IFC:PCS SBUS NONE, PmADR, IFCH, +2PC, IF ACLOW JUMP PWFAIL else STEP  
+IF NCIL JUMPI A+(CL1, CL0) else STEP                                  
+ILLEGAL:  A(1)BE1, JUMP INT                                           
+PWFAIL:  A(1)BE0, JUMP INT                                            
+INT:  SPS SBUS NONE, PmADR,(INTA, -2SP), STEP                         
+ FLAGS SBUS NONE, PmMDR, WRITE, -2SP, STEP                            
+ SPS SBUS NONE, PmADR, STEP                                           
+ PCS SBUS NONE, PmMDR, WRITE, STEP                                    
+ IVRS SBUS NONE, PmADR, READ, STEP                                    
+ MDRS SBUS NONE, PmPC, (A(0)BE, A(0)BI), JUMP IFC                     
+A:  JUMPI FOSAD+(IR11, IR10)                                          
+B:  JUMPI FODADB+(IR5, IR4)                                           
+C:  JUMPI BEQ+(IR11÷IR8, 0)                                           
+D:  JUMPI CLC+(IR11÷IR8, 0)                
+FOSAM:  PCS SBUS NONE, PmADR, READ, +2PC, JUMP FOSEND     
+FOSAD:  RGs SBUS NONE, PmT, JUMPI FODADA+(IR5, IR4)                            
+FOSAI:  RGS SBUS NONE, PmADR, READ, JUMP FOSEND                       
+FOSAX:  PCS SBUS NONE, PmADR, READ, +2PC, STEP                        
+ RGS SUM MDRD, PmADR, READ, STEP                                      
+FOSEND:  MDRS SBUS NONE, PmT, JUMPI FODADA+(IR5, IR4)   
+FODAMA:  JUMP ILLEGAL                             
+FODADA:  NONE DBUS RGD, PmMDR, JUMPI MOV+(IR14÷IR12)                               
+FODAIA:  NONE DBUS RGD, PmADR, READ, JUMPI MOV+(IR14÷IR12)            
+FODAXA:  NONE DBUS PCD, PmADR, READ, +2PC, STEP                       
+ MDRS SUM RGD, PmADR, READ, JUMPI MOV+(IR14÷IR12)    
+FODAMB:  JUMP ILLEGAL
+FODADB:  NONE DBUS RGD, PmMDR, JUMPI CLR+(IR11÷IR8)                                                                   
+FODAIB:  NONE DBUS RGD, PmADR, READ, JUMPI MOV+(IR14÷IR12)            
+FODAXB:  NONE DBUS PCD, PmADR, READ, +2PC, STEP                       
+ MDRS SUM RGD, PmADR, READ, JUMPI CLR+(IR11÷IR8)                      
+ MOV:  TS SBUS NONE, PmMDR, JUMPI WRD+(IR5, IR4)                      
+ADD:  TS SUM MDRD, PmMDR, PdCONDA, JUMPI WRD+(IR5, IR4)               
+SUB:  NTS SUM MDRD, PmMDR, (CIN, PdCONDA), JUMPI WRD+(IR5, IR4)       
+CMP:  NTS SUM MDRD, (CIN, PdCONDA), JUMPI IFC+(INTR, 0, 0)            
+AND:  TS AND MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)               
+OR:  TS OR MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)                 
+XOR:  TS XOR MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)               
+CLR:  NONE DBUS 0D, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)              
+NEG:  NONE DBUS NMDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)           
+INC:  0S SUM MDRD, PmMDR, (CIN, PdCONDA), JUMPI WRD+(IR5, IR4)        
+DEC:  -1S SUM MDRD, PmMDR, PdCONDA, JUMPI WRD+(IR5, IR4)              
+ASL:  NONE ASL MDRD, PmMDR, PdCONDA, JUMPI WRD+(IR5, IR4)             
+ASR:  NONE ASR MDRD, PmMDR, PdCONDA, JUMPI WRD+(IR5, IR4)             
+LSR:  NONE LSR MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)             
+ROL:  NONE ROL MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)             
+ROR:  NONE ROR MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)             
+RLC:  NONE RLC MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)             
+RRC:  NONE RRC MDRD, PmMDR, PdCONDL, JUMPI WRD+(IR5, IR4)             
+PUSH:  SPS SBUS NONE, PmADR, WRITE, -2SP, JUMPI IFC+(INTR, 0, 0)      
+POP:  ADRS SBUS NONE, PmT, STEP                                       
+ SPS SBUS NONE, PmADR, READ, STEP                                     
+ TS, SBUS NONE, PmADR, +2SP, JUMPI WRD+(IR5, IR4)                     
+WRD:   JUMP ILLEGAL                      
+MDRS SBUS NONE, PmRG, JUMPI IFC+(INTR, 0, 0)                                       
+ WRITE, JUMPI IFC+(INTR, 0, 0)                                        
+ WRITE, JUMPI IFC+(INTR, 0, 0)                                        
+BEQ:  IF Z JUMPI JMPAD+( IR5, IR4) else STEP                          
+ JUMPI IFC+(INTR, 0, 0)                                               
+BNE:  IF NZ JUMPI JMPAD+( IR5, IR4) else STEP                         
+ JUMPI IFC+(INTR, 0, 0)                                               
+BMI:  IF S JUMPI JMPAD+( IR5, IR4) else STEP                          
+ JUMPI IFC+(INTR, 0, 0)                                               
+BPL:  IF NS JUMPI JMPAD+( IR5, IR4) else STEP                         
+ JUMPI IFC+(INTR, 0, 0)                                               
+BCS:  IF C JUMPI JMPAD+( IR5, IR4) else STEP                          
+ JUMPI IFC+(INTR, 0, 0)                                               
+BCC:  IF NC JUMPI JMPAD+( IR5, IR4) else STEP                         
+ JUMPI IFC+(INTR, 0, 0)                                               
+BVS:  IF V JUMPI JMPAD+( IR5, IR4) else STEP                          
+ JUMPI IFC+(INTR, 0, 0)                                               
+BVC:  IF NV JUMPI JMPAD+( IR5, IR4) else STEP                         
+ JUMPI IFC+(INTR, 0, 0)                                               
+JMP:  JUMPI JMPAD+( IR5, IR4)                                         
+ NONE                                                                   
+ CALL:  JUMPI CALLAD+( IR5, IR4)    
+CALLAM:  PCS SBUS NONE, PmADR, READ, +2PC, JUMP CALL2  
+CALLAD:  JUMP ILLEGAL                                                             
+CALLAI:  NONE DBUS RGD, PmT, JUMP CALL3                               
+CALLAX:  PCS SBUS NONE, PmADR, READ, +2PC, STEP                       
+ MDRS SUM RGD, PmT, JUMP CALL3                                        
+CALL2:  MDRS SUM PCD, PmT, STEP                                       
+CALL3:  SPS SBUS NONE, PmADR, -2SP, STEP                              
+ PCS SBUS NONE, PmMDR, WRITE, STEP                                    
+ TS SBUS NONE, PmPC, JUMPI IFC+(INTR, 0, 0) 
+JMPAM:  PCS SBUS NONE, PmADR, READ, +2PC, JUMP JMPAM2
+JMPAD:  JUMP ILLEGAL                                                                  
+JMPAI:  NONE DBUS RGD, PmPC, JUMPI IFC+(INTR, 0, 0)                   
+JMPAX:  PCS SBUS NONE, PmADR, READ, +2PC, STEP                        
+ MDRS SUM RGD, PmPC, JUMPI IFC+(INTR, 0, 0)                           
+JMPAM2:  MDRS SUM PCD, PmPC, JUMPI IFC+(INTR, 0, 0)                   
+CLC:  FLAGS AND IR[7÷0]D, PmFLAG, JUMPI IFC+(INTR, 0, 0)              
+ NONE                                                                 
+ SEC:  FLAGS OR IR[7÷0]D, PmFLAG, JUMPI IFC+(INTR, 0, 0)              
+ NONE                                                                 
+ NOP:  JUMPI IFC+(INTR, 0, 0)                                         
+ NONE                                                                 
+ HALT:  A(0)BPO                                                       
+ NONE                                                                 
+ EI:  A(1)BVI, JUMPI IFC+(INTR, 0, 0)                                 
+ NONE                                                                 
+ DI:  A(0)BVI, JUMP IFC                                               
+ NONE                                                                 
+ PC:  SPS SBUS NONE, PmADR, -2SP, STEP                                
+PCS SBUS NONE, PmMDR, WRITE, JUMPI IFC+(INTR, 0, 0)                   
+POP PC:  SPS SBUS NONE, PmADR, READ, STEP                             
+ MDRS SBUS NONE, PmPC, +2SP, JUMPI IFC+(INTR, 0, 0)                   
+ FLAG:  SPS SBUS NONE, PmADR, -2SP, STEP                              
+ FLAGS SBUS NONE, PmMDR, WRITE, JUMPI IFC+(INTR, 0, 0)                
+POP FLAG:  SPS SBUS NONE, PmADR, READ, STEP                           
+ MDRS SBUS NONE, PmFLAG, +2SP, JUMPI IFC+(INTR, 0, 0)                 
+RET:  SPS SBUS NONE, PmADR, READ, STEP                                
+ MDRS SBUS NONE, PmPC, +2SP, JUMPI IFC+(INTR, 0, 0)                   
+IRET:  SPS SBUS NONE, PmADR, READ, STEP                               
+ MDRS SBUS NONE, PmPC, +2SP, STEP                                     
+ SPS SBUS NONE, PmADR, READ, STEP                                     
+ MDRS SBUS NONE, PmFLAG, +2SP, JUMPI IFC+(INTR, 0, 0)                 
