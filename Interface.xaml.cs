@@ -42,6 +42,7 @@ namespace DidacticSimulator
         public int ACLOW, CIL, C, Z, S, V;
         public int CIN;
         public int BE, BI;
+        public string inputFilePath;
 
 
         public Interface()
@@ -49,7 +50,7 @@ namespace DidacticSimulator
             InitializeComponent();
             Clear();
             assembler = new Assembler();
-            assembler.ChangeInMachineCode(@"..\..\Shared\Files\InputFile.txt");
+
             #region Initialize
 
             RG = new short[16];
@@ -91,11 +92,13 @@ namespace DidacticSimulator
             RBUS = 0;
             BE = 1;
             BI = 1;
+            inputFilePath = @"..\..\Shared\Files\InputFile.txt";
 
             #endregion
         }
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            assembler.ChangeInMachineCode(inputFilePath);
             LoadMicroprogram(@"..\..\Shared\Files\Microprogram.txt", @"..\..\Shared\Files\MicroprogramText.txt");
             LoadProgram(@"..\..\Shared\Files\Program.txt");
             await Simulate();
@@ -663,26 +666,31 @@ namespace DidacticSimulator
 
                 case ALUOperation.ADD:
                     RBUS = Convert.ToInt16(DBUS + SBUS);
+                    setFlags((ushort)DBUS, (ushort)SBUS);
                     await ChangeRBUSBorderColor();
                     break;
 
                 case ALUOperation.SUB:
                     RBUS = Convert.ToInt16(SBUS - DBUS);
+                    setFlags((ushort)DBUS, (ushort)SBUS);
                     await ChangeRBUSBorderColor();
                     break;
 
                 case ALUOperation.AND:
                     RBUS = Convert.ToInt16(DBUS & SBUS);
+                    setFlags((ushort)DBUS, (ushort)SBUS);
                     await ChangeRBUSBorderColor();
                     break;
 
                 case ALUOperation.OR:
                     RBUS = Convert.ToInt16(DBUS | SBUS);
+                    setFlags((ushort)DBUS, (ushort)SBUS);
                     await ChangeRBUSBorderColor();
                     break;
 
                 case ALUOperation.XOR:
                     RBUS = Convert.ToInt16(DBUS ^ SBUS);
+                    setFlags((ushort)DBUS, (ushort)SBUS);
                     await ChangeRBUSBorderColor();
                     break;
 
@@ -865,15 +873,19 @@ namespace DidacticSimulator
                     break;
 
                 case OtherOperations.PdCONDA:
-
+                    int tempFlagA = ((C  << 3) | (Z  << 2) | (S  << 1) | V );
+                    FLAG = (short)tempFlagA;
                     break;
 
                 case OtherOperations.CinPdCONDA:
-
+                    CIN = 1;
+                    int tempFlagACin = ((C << 3) | (Z << 2) | (S << 1) | V);
+                    FLAG = (short)tempFlagACin;
                     break;
 
                 case OtherOperations.PdCONDL:
-
+                    int tempFlagL = ((Z << 2) | (S << 1));
+                    FLAG = (short)tempFlagL;
                     break;
 
                 case OtherOperations.A1BVI:
@@ -988,6 +1000,7 @@ namespace DidacticSimulator
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
+                inputFilePath = filePath;
 
                 try
                 {
@@ -1010,6 +1023,22 @@ namespace DidacticSimulator
             inputContent.SelectAll();
 
             inputContent.Selection.Text = "";
+        }
+
+        public void setFlags(ushort number1, ushort number2)
+        {
+            ushort result = (ushort)(number1 + number2);
+
+            C = (result < number1 || result < number2) ? 1 : 0;
+
+            short signedResult = (short)(result);
+
+            V = ((signedResult < 0 && number1 > 0 && number2 > 0 )
+                ||(signedResult > 0 && number1 < 0 && number2 < 0)) ? 1 : 0;
+
+            Z = (result == 0) ? 1 : 0;
+
+            S = ((result & 0x8000) != 0) ? 1 : 0;
         }
     }
 }

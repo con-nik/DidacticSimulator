@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DidacticSimulator"
         mc:Ignorable="d"
-        Title="Interface" Height="900" Width="1200" WindowState="Maximized">
+        Title="Interface" Height="830" Width="1200" WindowState="Maximized">
     <Grid Margin="0,0,3.6,0.4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -103,7 +103,7 @@
         <Label Content="Data In" HorizontalAlignment="Left" Margin="869,586,0,0" VerticalAlignment="Top" Height="26" Width="48"/>
         <Label Content="Address" HorizontalAlignment="Left" Margin="830,630,0,0" VerticalAlignment="Top" Height="26" Width="53"/>
         <Label Content="Data Out" HorizontalAlignment="Left" Margin="866,674,0,0" VerticalAlignment="Top" Height="26" Width="58"/>
-        <Button x:Name="start_button" Content="Start" HorizontalAlignment="Left" Height="47" Margin="62,768,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click" RenderTransformOrigin="0.328,2.04"/>
+        <Button x:Name="start_button" Content="Start" HorizontalAlignment="Left" Height="47" Margin="62,740,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click" RenderTransformOrigin="0.328,2.04"/>
         <Border x:Name="RBUS2Border" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="234,729,0,0" VerticalAlignment="Top" Width="927" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
@@ -519,7 +519,7 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label x:Name="microinstruction" Content="" HorizontalAlignment="Left" Margin="235,768,0,0" VerticalAlignment="Top" Width="921"/>
+        <Label x:Name="microinstruction" Content="" HorizontalAlignment="Left" Margin="236,751,0,0" VerticalAlignment="Top" Width="921"/>
 
 
 

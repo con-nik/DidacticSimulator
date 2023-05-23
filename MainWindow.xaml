@@ -6,9 +6,5 @@
         xmlns:local="clr-namespace:DidacticSimulator"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click">
-            Do something bad!
-        </Button>
-    </Grid>
+    <Grid/>
 </Window>

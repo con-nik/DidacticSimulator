@@ -28,16 +28,6 @@ namespace DidacticSimulator
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Assembler assembler = new Assembler();
-            assembler.ChangeInMachineCode(@"..\..\Shared\Files\InputFile.txt");
-
-            Simulator simulator = new Simulator();
-            simulator.LoadMicroprogram(@"..\..\Shared\Files\Microprogram.txt");
-            simulator.LoadProgram(@"..\..\Shared\Files\Program.txt");
-            simulator.Simulate();
-
-            Console.WriteLine("Done");
-
         }
     }
 }
