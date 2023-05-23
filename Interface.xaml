@@ -511,6 +511,13 @@
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="15" Margin="916,186,0,0" VerticalAlignment="Top" Width="1"/>
         <Border BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left" Height="22" Margin="1059,179,0,0" VerticalAlignment="Top" Width="1"/>
         <Label x:Name="IR_value" Content="0000000000000000" HorizontalAlignment="Left" Margin="524,469,0,0" VerticalAlignment="Top" Height="26" Width="114"/>
+        <RichTextBox Margin="10,13,982,141">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
 
 
 

@@ -47,18 +47,30 @@ namespace DidacticSimulator
             InitializeComponent();
             assembler = new Assembler();
             RG = new short[16];
+            for(int i=0; i < RG.Length; i++)
+            {
+                RG[i] = 0;
+            }
             MEM = new short[65536];
+            for(int i=0;i < MEM.Length; i++)
+            {
+                MEM[i] = 0;
+            }
             MPM = new long[116];
+            for(int i=0; i<MPM.Length; i++)
+            {
+                MPM[i] = 0;
+            }
             MAR = 0;
             BPO = 1;
-            BVI = 0;
+            BVI = 1;
             ACLOW = 0;
             CIL = 0;
             Z = 0;
             C = 0;
             S = 0;
             V = 0;
-            PC = 0;
+            PC = -1;
             T = 0;
             IR = 0;
             SP = 0;
@@ -128,17 +140,30 @@ namespace DidacticSimulator
                             MAR++;
                         }
 
+                        int bit18 = (int)(MIR >> 18) & 0b1;
+                        int bit19 = (int)(MIR >> 19) & 0b1;
+
+                        if(bit18 == 0 && bit19 == 0)
+                        {
+                            seqState = SeqState.S0;
+                        }
+                        else
+                        {
+                            seqState = SeqState.S2;
+                        }
+
                         SbusSource sbusSource = DecodeSbusSource(MIR);
                         DbusSource dbusSource = DecodeDbusSource(MIR);
                         ALUOperation aluOperation = DecodeALUOperation(MIR);
                         RbusDestination rbusDestination = DecodeRbusDestination(MIR);
                         OtherOperations otherOperations = DecodeOtherOperations(MIR);
 
+                        await ComputeOtherOperations(otherOperations);
                         await ComputeSbusSource(sbusSource);
                         await ComputeDbusSourceAsync(dbusSource);
                         await ComputeALUOperation(aluOperation);
                         await ComputeRbusDestinationAsync(rbusDestination);
-                        await ComputeOtherOperations(otherOperations);
+                        
 
                         seqState = SeqState.S2;
                         break;
@@ -159,14 +184,14 @@ namespace DidacticSimulator
             // get bits 13 - 11
             long succesor = (MIR >> 11) & 0b111;
             int MIR7 = Convert.ToInt32((MIR >> 7) & 0b1);
-            bool valueMIR7 = MIR7 != 0 ? true : false;
+            bool valueMIR7 = MIR7 != 0;
 
             switch (succesor)
             {
                 case 0:
-                    return valueMIR7 ^ false;
+                    return false;
                 case 1:
-                    return !valueMIR7 ^ true;
+                    return true;
                 case 2:
                     return Convert.ToBoolean(ACLOW) ^ valueMIR7;
                 case 3:
@@ -396,7 +421,7 @@ namespace DidacticSimulator
                 case 8:
                     return RbusDestination.PmADR;
                 case 9:
-                    return RbusDestination.PmADR;
+                    return RbusDestination.PmMDR;
                 default:
                     return RbusDestination.None;
             }
@@ -623,7 +648,7 @@ namespace DidacticSimulator
                     break;
 
                 case ALUOperation.SUB:
-                    RBUS = Convert.ToInt16(DBUS - SBUS);
+                    RBUS = Convert.ToInt16(SBUS - DBUS);
                     await ChangeRBUSBorderColor();
                     break;
 
@@ -795,13 +820,13 @@ namespace DidacticSimulator
                 case OtherOperations.None:
                     break;
                 case OtherOperations.plus2SP:
-                    SP += 2;
+                    SP += 1;
                     SP_value.Content = Convert.ToString(SP, 2).PadLeft(16, '0');
                     await DelayOneSecond();
                     break;
 
                 case OtherOperations.minus2SP:
-                    SP -= 2;
+                    SP -= 1;
                     SP_value.Content = Convert.ToString(SP, 2).PadLeft(16, '0');
                     await DelayOneSecond();
                     break;
@@ -862,7 +887,7 @@ namespace DidacticSimulator
                 case MemoryOperation.None:
                     break;
                 case MemoryOperation.IFCH:
-                    IR = MEM[PC - 1];
+                    IR = MEM[ADR];
                     IR_value.Content = Convert.ToString(IR, 2).PadLeft(16, '0');
                     await DelayOneSecond();
                     break;
